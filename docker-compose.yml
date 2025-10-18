@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  blog-db:
+    image: mysql:8.0
+    container_name: blog-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: blog_db
+      MYSQL_USER: crochet
+      MYSQL_PASSWORD: crochet123
+    ports:
+      - "3307:3306"
+    volumes:
+      - blog_db_data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d
+    networks:
+      - crochet-network
+
+volumes:
+  blog_db_data:
+
+networks:
+  crochet-network:
+    driver: bridge

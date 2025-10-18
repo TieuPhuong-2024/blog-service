@@ -1,0 +1,59 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: blog-service
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3307/blog_db
+    username: crochet
+    password: crochet123
+    driver-class-name: mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.crochet.blog: DEBUG
+    liquibase: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+# Cache configuration
+spring.cache:
+  type: caffeine
+  caffeine:
+    spec: maximumSize=1000,expireAfterWrite=5m
+
+# Main service configuration
+main-service:
+  url: ${MAIN_SERVICE_URL:http://localhost:8082}
+  internal-api-key: ${INTERNAL_API_KEY:internal-api-key}
+
+# JWT configuration (for fallback token verification)
+jwt:
+  secret: ${JWT_SECRET:your-jwt-secret-key-here-should-be-at-least-256-bits}
+  expiration: 86400000  # 24 hours
