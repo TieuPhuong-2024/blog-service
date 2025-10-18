@@ -9,7 +9,6 @@ import org.crochet.blog.mapper.PaginationMapper;
 import org.crochet.blog.mapper.PostMapper;
 import org.crochet.blog.model.Post;
 import org.crochet.blog.model.Category;
-import org.crochet.blog.payload.UserInfo;
 import org.crochet.blog.payload.UserResponse;
 import org.crochet.blog.payload.request.PostRequest;
 import org.crochet.blog.payload.response.PaginationResponse;
@@ -59,7 +58,7 @@ public class PostServiceImpl implements PostService {
                     .category(category)
                     .title(request.getTitle())
                     .content(request.getContent())
-                    .home(request.isHome())
+                    .showOnHomePage(request.isShowOnHomePage())
                     .files(FileMapper.INSTANCE.toEntities(images))
                     .build();
         } else {
@@ -106,8 +105,8 @@ public class PostServiceImpl implements PostService {
     public List<PostResponse> getLimitedPosts() {
         // For now, return home posts. In the future, this could use settings like the
         // main service
-        Pageable pageable = PageRequest.of(0, 12, Sort.by(Sort.Direction.DESC, "createdDate"));
-        List<Post> posts = postRepository.findByHomeTrueOrderByCreatedDateDesc(pageable);
+        Pageable pageable = PageRequest.of(0, 12, Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<Post> posts = postRepository.findByShowOnHomePageTrueOrderByCreatedAtDesc(pageable);
 
         List<PostResponse> responses = PostMapper.INSTANCE.toResponses(posts);
 

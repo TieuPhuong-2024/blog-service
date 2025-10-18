@@ -6,7 +6,6 @@ import org.crochet.blog.payload.response.PostResponse;
 import org.crochet.blog.util.ImageUtils;
 import org.crochet.blog.util.ObjectUtils;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -14,11 +13,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = { FileMapper.class })
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {FileMapper.class})
 public interface PostMapper extends PartialUpdate<Post, PostRequest> {
     PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 
-    @Mapping(target = "isHome", source = "home")
     PostResponse toResponse(Post post);
 
     default List<PostResponse> toResponses(Collection<Post> posts) {
@@ -40,8 +38,8 @@ public interface PostMapper extends PartialUpdate<Post, PostRequest> {
         if (request.getContent() != null) {
             post.setContent(request.getContent());
         }
-        if (request.isHome() != post.isHome()) {
-            post.setHome(request.isHome());
+        if (request.isShowOnHomePage() != post.isShowOnHomePage()) {
+            post.setShowOnHomePage(request.isShowOnHomePage());
         }
         if (ObjectUtils.isNotEmpty(request.getFiles())) {
             var sortedFiles = ImageUtils.sortFiles(request.getFiles());

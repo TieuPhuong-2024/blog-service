@@ -1,8 +1,6 @@
 package org.crochet.blog.payload.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,10 +18,8 @@ public class PostResponse {
     private String id;
     private String title;
     private String content;
-    @JsonProperty("is_home")
-    private Boolean isHome;
+    private Boolean showOnHomePage;
     private List<FileResponse> files;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     private String fileContent;
     private String createdBy;

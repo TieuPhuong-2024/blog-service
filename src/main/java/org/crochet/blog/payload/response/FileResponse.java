@@ -1,6 +1,5 @@
 package org.crochet.blog.payload.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,6 @@ public class FileResponse {
     private String fileName;
     private String fileContent;
     private Integer order;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModified = LocalDateTime.now();
 
     public FileResponse(String fileName, String fileContent) {

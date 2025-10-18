@@ -24,7 +24,7 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
      * @param pageable Pagination information
      * @return A page of root comments for the specified post
      */
-    Page<Comment> findByPostIdAndParentIsNullOrderByCreatedDateDesc(String postId, Pageable pageable);
+    Page<Comment> findByPostIdAndParentIsNullOrderByCreatedAtDesc(String postId, Pageable pageable);
 
     /**
      * Retrieves all replies for a specific parent comment, ordered by creation date (ascending).
@@ -32,7 +32,7 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
      * @param parentId The ID of the parent comment
      * @return A list of reply comments
      */
-    List<Comment> findByParentIdOrderByCreatedDateAsc(String parentId);
+    List<Comment> findByParentIdOrderByCreatedAtAsc(String parentId);
 
     /**
      * Retrieves all comments (both root comments and replies) for a specific post with pagination support.
@@ -41,7 +41,7 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
      * @param pageable Pagination information
      * @return A page of all comments for the specified post
      */
-    Page<Comment> findByPostIdOrderByCreatedDateDesc(String postId, Pageable pageable);
+    Page<Comment> findByPostIdOrderByCreatedAtDesc(String postId, Pageable pageable);
 
     /**
      * Counts the number of replies for a specific parent comment.

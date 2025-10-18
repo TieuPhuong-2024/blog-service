@@ -17,28 +17,28 @@ public interface PostRepository extends JpaRepository<Post, String>, JpaSpecific
 
     @Query("""
             SELECT
-            p
+                p
             FROM
-            Post p
+                Post p
             LEFT JOIN FETCH p.files
             WHERE
-            p.id = :id
+                p.id = :id
             """)
     Optional<Post> getDetail(@Param("id") String id);
 
     @Query("""
             SELECT
-            p.id
+                p.id
             FROM
-            Post p
+                Post p
             ORDER BY
-            p.createdDate DESC
+                p.createdAt DESC
             """)
     List<String> getPostIds(Pageable pageable);
 
     // Find posts marked as home
-    List<Post> findByHomeTrueOrderByCreatedDateDesc(Pageable pageable);
+    List<Post> findByShowOnHomePageTrueOrderByCreatedAtDesc(Pageable pageable);
 
     // Find all posts with pagination
-    Page<Post> findAllByOrderByCreatedDateDesc(Pageable pageable);
+    Page<Post> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }

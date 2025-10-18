@@ -70,15 +70,18 @@ public class SecurityConfig {
 
     private void configureAuthorization(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authReq -> authReq
-                // Public endpoints
-                .requestMatchers("/api/v1/posts", "/api/v1/posts/{id}", "/api/v1/comments").permitAll()
-                // Protected endpoints
-                .requestMatchers("/api/v1/posts/**", "/api/v1/comments/**").authenticated()
-                // Swagger/OpenAPI
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // Actuator
-                .requestMatchers("/actuator/**").permitAll()
-                .anyRequest().authenticated());
+                        .anyRequest().permitAll()
+
+                // // Public endpoints
+                // .requestMatchers("/api/v1/posts", "/api/v1/posts/{id}", "/api/v1/comments").permitAll()
+                // // Protected endpoints
+                // .requestMatchers("/api/v1/posts/**", "/api/v1/comments/**").authenticated()
+                // // Swagger/OpenAPI
+                // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                // // Actuator
+                // .requestMatchers("/actuator/**").permitAll()
+                // .anyRequest().authenticated()
+        );
     }
 
     @Bean

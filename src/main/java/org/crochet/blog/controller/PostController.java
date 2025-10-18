@@ -1,5 +1,6 @@
 package org.crochet.blog.controller;
 
+import com.turkraft.springfilter.boot.Filter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -58,11 +59,11 @@ public class PostController {
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @Parameter(description = "Page size (default: 12)")
             @RequestParam(value = "pageSize", defaultValue = "12", required = false) int pageSize,
-            @Parameter(description = "Sort by field (default: createdDate)")
-            @RequestParam(value = "sortBy", defaultValue = "createdDate", required = false) String sortBy,
+            @Parameter(description = "Sort by field (default: createdAt)")
+            @RequestParam(value = "sortBy", defaultValue = "createdAt", required = false) String sortBy,
             @Parameter(description = "Sort direction (default: DESC)")
             @RequestParam(value = "sortDir", defaultValue = "DESC", required = false) String sortDir,
-            Specification<Post> spec) {
+            @Filter Specification<Post> spec) {
         var response = postService.getPosts(pageNo, pageSize, sortBy, sortDir, spec);
         return ResponseUtil.success(response);
     }

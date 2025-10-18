@@ -87,7 +87,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public PaginationResponse<CommentResponse> getRootCommentsByPost(String postId, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Comment> page = commentRepository.findByPostIdAndParentIsNullOrderByCreatedDateDesc(
+        Page<Comment> page = commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtDesc(
                 postId, pageable);
 
         List<CommentResponse> responses = page.getContent().stream()
@@ -104,7 +104,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public PaginationResponse<CommentResponse> getCommentsByPost(String postId, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Comment> page = commentRepository.findByPostIdOrderByCreatedDateDesc(postId, pageable);
+        Page<Comment> page = commentRepository.findByPostIdOrderByCreatedAtDesc(postId, pageable);
 
         List<CommentResponse> responses = page.getContent().stream()
                 .map(CommentMapper.INSTANCE::toResponse)
@@ -128,7 +128,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentResponse> getRepliesByCommentId(String commentId) {
-        List<Comment> replies = commentRepository.findByParentIdOrderByCreatedDateAsc(commentId);
+        List<Comment> replies = commentRepository.findByParentIdOrderByCreatedAtAsc(commentId);
 
         List<CommentResponse> responses = replies.stream()
                 .map(CommentMapper.INSTANCE::toResponse)

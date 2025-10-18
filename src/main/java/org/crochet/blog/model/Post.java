@@ -38,8 +38,8 @@ public class Post extends BaseEntity {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "home", columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean home;
+    @Column(name = "show_on_home_page", columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean showOnHomePage;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonManagedReference
