@@ -31,6 +31,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CorsProps corsProps;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -70,24 +71,31 @@ public class SecurityConfig {
 
     private void configureAuthorization(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authReq -> authReq
-                        .anyRequest().permitAll()
-
-                // // Public endpoints
-                // .requestMatchers("/api/v1/posts", "/api/v1/posts/{id}", "/api/v1/comments").permitAll()
-                // // Protected endpoints
-                // .requestMatchers("/api/v1/posts/**", "/api/v1/comments/**").authenticated()
-                // // Swagger/OpenAPI
-                // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // // Actuator
-                // .requestMatchers("/actuator/**").permitAll()
-                // .anyRequest().authenticated()
+                // Public endpoints
+                .requestMatchers(
+                        "/api/v1/posts",
+                        "/api/v1/posts/{id}",
+                        "/api/v1/posts/limited",
+                        "/api/v1/comments",
+                        "/api/v1/categories",
+                        "/api/v1/categories/{id}").permitAll()
+                // Protected endpoints
+                .requestMatchers(
+                        "/api/v1/posts/**",
+                        "/api/v1/comments/**",
+                        "/api/v1/categories/**").authenticated()
+                // Swagger/OpenAPI
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                // Actuator
+                .requestMatchers("/actuator/**").permitAll()
+                .anyRequest().authenticated()
         );
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList(corsProps.getAllowedOrigins()));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

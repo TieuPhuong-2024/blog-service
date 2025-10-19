@@ -34,6 +34,7 @@ public class CategoryController {
     @ApiResponse(responseCode = "200", description = "Category created or updated successfully")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseData<String> createOrUpdate(@RequestBody CategoryRequest request) {
         categoryService.createOrUpdate(request);
         return ResponseUtil.success("Category created or updated successfully");
@@ -42,7 +43,8 @@ public class CategoryController {
     @Operation(summary = "Delete a category")
     @ApiResponse(responseCode = "200", description = "Category deleted successfully")
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseData<String> delete(@PathVariable("id") String id) {
         categoryService.delete(id);
         return ResponseUtil.success("Category deleted successfully");

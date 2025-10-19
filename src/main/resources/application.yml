@@ -50,10 +50,13 @@ spring.cache:
 
 # Main service configuration
 main-service:
-  url: ${MAIN_SERVICE_URL:http://localhost:8082}
+  url: ${MAIN_SERVICE_URL:http://localhost:8081}
   internal-api-key: ${INTERNAL_API_KEY:internal-api-key}
 
 # JWT configuration (for fallback token verification)
 jwt:
   secret: ${JWT_SECRET:your-jwt-secret-key-here-should-be-at-least-256-bits}
   expiration: 86400000  # 24 hours
+
+cors:
+  allowed-origins: http://localhost:8080,http://localhost:8081,http://localhost:8082,http://localhost:8083,http://localhost:3000

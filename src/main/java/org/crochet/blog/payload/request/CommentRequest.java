@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class CommentRequest {
-    // ID for update, not required for create
+    // ID for update, not required for creation
     private String id;
 
     // Blog post ID

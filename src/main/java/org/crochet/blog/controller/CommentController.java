@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.crochet.blog.payload.request.CommentRequest;
@@ -39,6 +40,7 @@ public class CommentController {
                     schema = @Schema(implementation = CommentResponse.class)))
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseData<CommentResponse> createOrUpdateComment(
             @Valid @RequestBody CommentRequest request) {
         var response = commentService.createOrUpdate(request);
@@ -91,6 +93,7 @@ public class CommentController {
     @ApiResponse(responseCode = "200", description = "Comment deleted successfully")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{comment_id}")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseData<String> deleteComment(
             @Parameter(description = "Comment ID") @PathVariable("comment_id") String commentId) {
         commentService.deleteComment(commentId);
