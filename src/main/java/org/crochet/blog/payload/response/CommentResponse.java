@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,7 +15,7 @@ import java.util.List;
 public class CommentResponse {
     private String id;
     private String content;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     private String userId;
     private String username;
     private String userAvatar;
@@ -30,7 +30,7 @@ public class CommentResponse {
     private String mentionedUsername;
 
     // Constructor for query
-    public CommentResponse(String id, String content, LocalDateTime createdAt) {
+    public CommentResponse(String id, String content, Instant createdAt) {
         this.id = id;
         this.content = content;
         this.createdAt = createdAt;

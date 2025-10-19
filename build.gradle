@@ -47,7 +47,6 @@ dependencies {
 
     implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
 
-    implementation 'com.mysql:mysql-connector-j:8.4.0'
     implementation 'org.liquibase:liquibase-core:4.30.0'
     implementation 'com.h2database:h2:2.2.224'
     implementation 'org.postgresql:postgresql:42.7.4'
@@ -81,7 +80,6 @@ dependencies {
     liquibaseRuntime 'org.liquibase:liquibase-core:4.30.0'
     liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.3'
     liquibaseRuntime 'info.picocli:picocli:4.7.6'
-    liquibaseRuntime 'com.mysql:mysql-connector-j:8.4.0'
     liquibaseRuntime 'org.postgresql:postgresql:42.7.4'
 }
 

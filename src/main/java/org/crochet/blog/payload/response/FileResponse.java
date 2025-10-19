@@ -3,7 +3,7 @@ package org.crochet.blog.payload.response;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -11,21 +11,21 @@ public class FileResponse {
     private String fileName;
     private String fileContent;
     private Integer order;
-    private LocalDateTime lastModified = LocalDateTime.now();
+    private Instant lastModified = Instant.now();
 
     public FileResponse(String fileName, String fileContent) {
         this(fileName, fileContent, 0);
     }
 
     public FileResponse(String fileName, String fileContent, Integer order) {
-        this(fileName, fileContent, order, LocalDateTime.now());
+        this(fileName, fileContent, order, Instant.now());
     }
 
-    public FileResponse(String fileName, String fileContent, LocalDateTime lastModified) {
+    public FileResponse(String fileName, String fileContent, Instant lastModified) {
         this(fileName, fileContent, 0, lastModified);
     }
 
-    public FileResponse(String fileName, String fileContent, Integer order, LocalDateTime lastModified) {
+    public FileResponse(String fileName, String fileContent, Integer order, Instant lastModified) {
         this.fileName = fileName;
         this.fileContent = fileContent;
         this.order = order;

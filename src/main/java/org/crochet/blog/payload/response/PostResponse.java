@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -20,7 +20,7 @@ public class PostResponse {
     private String content;
     private Boolean showOnHomePage;
     private List<FileResponse> files;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     private String fileContent;
     private String createdBy;
     private String userId;
@@ -29,11 +29,11 @@ public class PostResponse {
     private Long commentCount;
 
     public PostResponse(String id,
-            String title,
-            String content,
-            String fileContent,
-            LocalDateTime createdAt,
-            String createdBy) {
+                        String title,
+                        String content,
+                        String fileContent,
+                        Instant createdAt,
+                        String createdBy) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -43,14 +43,14 @@ public class PostResponse {
     }
 
     public PostResponse(String id,
-            String title,
-            String content,
-            String fileContent,
-            LocalDateTime createdAt,
-            String createdBy,
-            String userId,
-            String username,
-            String userAvatar) {
+                        String title,
+                        String content,
+                        String fileContent,
+                        Instant createdAt,
+                        String createdBy,
+                        String userId,
+                        String username,
+                        String userAvatar) {
         this(id, title, content, fileContent, createdAt, createdBy);
         this.userId = userId;
         this.username = username;
