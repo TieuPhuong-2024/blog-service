@@ -66,6 +66,8 @@ dependencies {
 
     implementation 'com.turkraft.springfilter:jpa:3.1.9'
 
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test:6.3.0'
     testImplementation 'org.mockito:mockito-core:5.11.0'

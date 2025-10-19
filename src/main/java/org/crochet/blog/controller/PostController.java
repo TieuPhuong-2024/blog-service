@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.crochet.blog.model.Post;
 import org.crochet.blog.payload.request.PostRequest;
 import org.crochet.blog.payload.response.PaginationResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -41,7 +43,9 @@ public class PostController {
     @ApiResponse(responseCode = "200", description = "Blog post created or updated successfully")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ResponseData<String> createOrUpdatePost(@RequestBody PostRequest request) {
+    @SecurityRequirement(name = "BearerAuth")
+    public ResponseData<String> createOrUpdatePost(
+            @RequestBody PostRequest request) {
         postService.createOrUpdatePost(request);
         return ResponseUtil.success("Blog post created or updated successfully");
     }

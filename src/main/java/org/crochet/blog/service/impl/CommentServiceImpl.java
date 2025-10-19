@@ -7,7 +7,6 @@ import org.crochet.blog.exception.ResourceNotFoundException;
 import org.crochet.blog.mapper.CommentMapper;
 import org.crochet.blog.model.Comment;
 import org.crochet.blog.model.Post;
-import org.crochet.blog.payload.UserInfo;
 import org.crochet.blog.payload.UserResponse;
 import org.crochet.blog.payload.request.CommentRequest;
 import org.crochet.blog.payload.response.CommentResponse;
@@ -16,11 +15,10 @@ import org.crochet.blog.repository.CommentRepository;
 import org.crochet.blog.service.PostService;
 import org.crochet.blog.service.CommentService;
 import org.crochet.blog.util.ObjectUtils;
+import org.crochet.blog.util.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +39,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponse createOrUpdate(CommentRequest request) {
         Comment comment;
-        String currentUserId = getCurrentUserId();
+        String currentUserId = SecurityUtil.getCurrentUserId();
 
         if (!ObjectUtils.hasText(request.getId())) {
             // Create a new comment
@@ -159,7 +157,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found"));
 
-        String currentUserId = getCurrentUserId();
+        String currentUserId = SecurityUtil.getCurrentUserId();
         if (!currentUserId.equals(comment.getUserId())) {
             throw new RuntimeException("User does not have permission to delete this comment");
         }
@@ -167,16 +165,6 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(comment);
     }
 
-    /**
-     * Get current user ID from security context
-     */
-    private String getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserInfo userInfo) {
-            return userInfo.getId();
-        }
-        throw new RuntimeException("User not authenticated");
-    }
 
     /**
      * Enrich a single comment with user info

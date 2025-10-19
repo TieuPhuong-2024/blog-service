@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .map(SimpleGrantedAuthority::new)
                             .toList();
 
-                    // Create authentication token
+                    // Create an authentication token
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userInfo,
                             null,
@@ -66,7 +66,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             new WebAuthenticationDetailsSource().buildDetails(request)
                     );
 
-                    // Set authentication in security context
+                    // Set authentication in a security context
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
@@ -80,7 +80,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Extract JWT token from Authorization header
+     * Extract JWT token from the Authorization header
      */
     private String getJwtFromAuthorizationHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");

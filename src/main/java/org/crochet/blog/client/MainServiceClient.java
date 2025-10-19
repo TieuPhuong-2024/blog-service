@@ -1,5 +1,6 @@
 package org.crochet.blog.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.crochet.blog.payload.UserInfo;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MainServiceClient {
 
     private final RestClient restClient;
+    private final ObjectMapper om;
 
     @Value("${main-service.url}")
     private String mainServiceUrl;
@@ -28,20 +30,22 @@ public class MainServiceClient {
     /**
      * Validate JWT token and get user info
      */
-    @Cacheable(value = "userInfo", key = "#token")
+//    @Cacheable(value = "userInfo", key = "#token")
     public UserInfo validateToken(String token) {
         try {
             String url = mainServiceUrl + "/api/v1/internal/auth/validate";
-            return restClient.post()
-                .uri(url)
-                .header("Authorization", token)
-                .header("X-Internal-Api-Key", internalApiKey)
-                .retrieve()
-                .body(UserInfo.class);
+            var payload = restClient.post()
+                    .uri(url)
+                    .header("Authorization", "Bearer " + token)
+                    .header("X-Internal-Api-Key", internalApiKey)
+                    .retrieve()
+                    .body(String.class);
+            var data = om.readTree(payload).get("data").toString();
+            return om.readValue(data, UserInfo.class);
         } catch (Exception e) {
             log.error("Failed to validate token: {}", e.getMessage());
-            throw e;
         }
+        return null;
     }
 
     /**
@@ -52,10 +56,10 @@ public class MainServiceClient {
         try {
             String url = mainServiceUrl + "/api/v1/internal/users/" + userId;
             return restClient.get()
-                .uri(url)
-                .header("X-Internal-Api-Key", internalApiKey)
-                .retrieve()
-                .body(UserResponse.class);
+                    .uri(url)
+                    .header("X-Internal-Api-Key", internalApiKey)
+                    .retrieve()
+                    .body(UserResponse.class);
         } catch (Exception e) {
             log.error("Failed to get user info for userId {}: {}", userId, e.getMessage());
             throw e;
@@ -70,11 +74,11 @@ public class MainServiceClient {
         try {
             String url = mainServiceUrl + "/api/v1/internal/users/batch?userIds=" + String.join(",", userIds);
             return restClient.get()
-                .uri(url)
-                .header("X-Internal-Api-Key", internalApiKey)
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+                    .uri(url)
+                    .header("X-Internal-Api-Key", internalApiKey)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
         } catch (Exception e) {
             log.error("Failed to get batch user info: {}", e.getMessage());
             throw e;

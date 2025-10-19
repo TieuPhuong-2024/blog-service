@@ -17,6 +17,7 @@ import org.crochet.blog.service.CategoryService;
 import org.crochet.blog.service.PostService;
 import org.crochet.blog.util.ImageUtils;
 import org.crochet.blog.util.ObjectUtils;
+import org.crochet.blog.util.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +45,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void createOrUpdatePost(PostRequest request) {
         Post post;
+        String currentUserId = SecurityUtil.getCurrentUserId();
 
         if (!ObjectUtils.hasText(request.getId())) {
             // Create a new post
@@ -59,6 +61,7 @@ public class PostServiceImpl implements PostService {
                     .content(request.getContent())
                     .showOnHomePage(request.isShowOnHomePage())
                     .files(FileMapper.INSTANCE.toEntities(images))
+                    .createdBy(currentUserId)
                     .build();
         } else {
             // Update existing post
