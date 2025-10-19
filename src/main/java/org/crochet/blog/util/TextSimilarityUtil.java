@@ -1,8 +1,5 @@
 package org.crochet.blog.util;
 
-import org.apache.commons.text.similarity.CosineSimilarity;
-import org.apache.commons.text.similarity.JaccardSimilarity;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,9 +13,6 @@ import java.util.stream.Collectors;
  * Utility class for text similarity calculations using TF-IDF and cosine similarity
  */
 public class TextSimilarityUtil {
-
-    private static final CosineSimilarity cosineSimilarity = new CosineSimilarity();
-    private static final JaccardSimilarity jaccardSimilarity = new JaccardSimilarity();
 
     /**
      * Calculate TF-IDF vectors for a list of documents

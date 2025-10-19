@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.crochet.blog.payload.UserInfo;
 import org.crochet.blog.payload.UserResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -30,7 +29,6 @@ public class MainServiceClient {
     /**
      * Validate JWT token and get user info
      */
-    @Cacheable(value = "userInfo", key = "#token")
     public UserInfo validateToken(String token) {
         try {
             String url = mainServiceUrl + "/api/v1/internal/auth/validate";
@@ -51,7 +49,6 @@ public class MainServiceClient {
     /**
      * Get user info by user ID
      */
-    @Cacheable(value = "userResponse", key = "#userId")
     public UserResponse getUserInfo(String userId) {
         try {
             String url = mainServiceUrl + "/api/v1/internal/users/" + userId;
@@ -71,7 +68,6 @@ public class MainServiceClient {
     /**
      * Get batch user info
      */
-    @Cacheable(value = "userBatchResponse", key = "#userIds.toString()")
     public List<UserResponse> getBatchUserInfo(List<String> userIds) {
         try {
             String url = mainServiceUrl + "/api/v1/internal/users/batch?userIds=" + String.join(",", userIds);
