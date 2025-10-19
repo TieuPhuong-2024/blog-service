@@ -13,4 +13,15 @@ public class UserResponse {
     private String id;
     private String name;
     private String imageUrl;
+    private String email;
+    private RoleType role;
+    private Boolean emailVerified;
+    private String createdDate;
+    private String lastModifiedDate;
+
+    enum RoleType {
+        USER,
+        VIP_USER,
+        ADMIN;
+    }
 }
