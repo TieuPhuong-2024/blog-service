@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class ImageUtils {
+public class ImageUtil {
     /**
      * Sort files by the last modified date and assign order
      *
@@ -15,7 +15,7 @@ public class ImageUtils {
      * @return Sorted list of files with order assigned, or null if input is empty
      */
     public static <T extends FileResponse> List<T> sortFiles(Collection<T> files) {
-        if (ObjectUtils.isEmpty(files)) {
+        if (ObjectUtil.isEmpty(files)) {
             return List.of();
         }
 

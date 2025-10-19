@@ -97,4 +97,18 @@ public class PostController {
         postService.deletePost(id);
         return ResponseUtil.success("Blog post deleted successfully");
     }
+
+    @Operation(summary = "Get similar blog posts")
+    @ApiResponse(responseCode = "200",
+            description = "List of similar blog posts",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PostResponse.class)))
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}/similar")
+    public ResponseData<List<PostResponse>> getSimilarPosts(
+            @PathVariable("id") String id,
+            @Parameter(description = "Maximum number of similar posts to return (default: 5)")
+            @RequestParam(value = "limit", defaultValue = "5", required = false) int limit) {
+        var response = postService.getSimilarPosts(id, limit);
+        return ResponseUtil.success(response);
+    }
 }

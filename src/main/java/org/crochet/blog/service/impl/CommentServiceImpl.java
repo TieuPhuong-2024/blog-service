@@ -12,9 +12,9 @@ import org.crochet.blog.payload.request.CommentRequest;
 import org.crochet.blog.payload.response.CommentResponse;
 import org.crochet.blog.payload.response.PaginationResponse;
 import org.crochet.blog.repository.CommentRepository;
-import org.crochet.blog.service.PostService;
 import org.crochet.blog.service.CommentService;
-import org.crochet.blog.util.ObjectUtils;
+import org.crochet.blog.service.PostService;
+import org.crochet.blog.util.ObjectUtil;
 import org.crochet.blog.util.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment;
         String currentUserId = SecurityUtil.getCurrentUserId();
 
-        if (!ObjectUtils.hasText(request.getId())) {
+        if (!ObjectUtil.hasText(request.getId())) {
             // Create a new comment
             Post post = postService.getById(request.getPostId());
 

@@ -2,8 +2,8 @@ package org.crochet.blog.service;
 
 import org.crochet.blog.model.Post;
 import org.crochet.blog.payload.request.PostRequest;
-import org.crochet.blog.payload.response.PostResponse;
 import org.crochet.blog.payload.response.PaginationResponse;
+import org.crochet.blog.payload.response.PostResponse;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -23,4 +23,6 @@ public interface PostService {
     void deletePost(String id);
 
     Post getById(String id);
+
+    List<PostResponse> getSimilarPosts(String postId, int limit);
 }

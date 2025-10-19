@@ -9,7 +9,7 @@ import org.crochet.blog.payload.request.CategoryRequest;
 import org.crochet.blog.payload.response.CategoryResponse;
 import org.crochet.blog.repository.CategoryRepository;
 import org.crochet.blog.service.CategoryService;
-import org.crochet.blog.util.ObjectUtils;
+import org.crochet.blog.util.ObjectUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void createOrUpdate(CategoryRequest request) {
         Category category;
 
-        if (!ObjectUtils.hasText(request.getId())) {
+        if (!ObjectUtil.hasText(request.getId())) {
             // Create a new category
             category = Category.builder()
                     .name(request.getName())

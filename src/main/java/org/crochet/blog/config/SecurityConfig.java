@@ -76,6 +76,7 @@ public class SecurityConfig {
                         "/api/v1/posts",
                         "/api/v1/posts/{id}",
                         "/api/v1/posts/limited",
+                        "/api/v1/posts/{id}/similar",
                         "/api/v1/comments",
                         "/api/v1/categories",
                         "/api/v1/categories/{id}").permitAll()

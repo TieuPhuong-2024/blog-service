@@ -1,17 +1,19 @@
 package org.crochet.blog.util;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Utility class for common Object operations.
  */
-public final class ObjectUtils {
+public final class ObjectUtil {
 
     /**
      * Private constructor to prevent instantiation of utility class.
      */
-    private ObjectUtils() {
+    private ObjectUtil() {
     }
 
     /**
