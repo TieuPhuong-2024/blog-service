@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ImageUtils {
     /**
-     * Sort files by last modified date and assign order
+     * Sort files by the last modified date and assign order
      *
      * @param <T>   Type of file extending FileResponse
      * @param files Collection of files to sort

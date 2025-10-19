@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.crochet.blog.client.MainServiceClient;
 import org.crochet.blog.exception.ResourceNotFoundException;
-import org.crochet.blog.mapper.PaginationMapper;
 import org.crochet.blog.mapper.CommentMapper;
 import org.crochet.blog.model.Comment;
 import org.crochet.blog.model.Post;
@@ -98,7 +97,14 @@ public class CommentServiceImpl implements CommentService {
         enrichCommentsWithUserInfo(responses);
         addReplyCounts(responses);
 
-        return PaginationMapper.toPagination(page, responses);
+        return PaginationResponse.<CommentResponse>builder()
+            .contents(responses)
+            .pageNo(page.getNumber())
+            .pageSize(page.getSize())
+            .totalElements(page.getTotalElements())
+            .totalPages(page.getTotalPages())
+            .last(page.isLast())
+            .build();
     }
 
     @Override
@@ -113,7 +119,14 @@ public class CommentServiceImpl implements CommentService {
         // Enrich with user info
         enrichCommentsWithUserInfo(responses);
 
-        return PaginationMapper.toPagination(page, responses);
+        return PaginationResponse.<CommentResponse>builder()
+            .contents(responses)
+            .pageNo(page.getNumber())
+            .pageSize(page.getSize())
+            .totalElements(page.getTotalElements())
+            .totalPages(page.getTotalPages())
+            .last(page.isLast())
+            .build();
     }
 
     @Override

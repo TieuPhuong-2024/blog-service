@@ -28,12 +28,12 @@ public class CategoryServiceImpl implements CategoryService {
         Category category;
 
         if (!ObjectUtils.hasText(request.getId())) {
-            // Create new category
+            // Create a new category
             category = Category.builder()
                     .name(request.getName())
                     .build();
         } else {
-            // Update existing category
+            // Update the existing category
             category = getById(request.getId());
             category.setName(request.getName());
         }

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.crochet.blog.client.MainServiceClient;
 import org.crochet.blog.exception.ResourceNotFoundException;
 import org.crochet.blog.mapper.FileMapper;
-import org.crochet.blog.mapper.PaginationMapper;
 import org.crochet.blog.mapper.PostMapper;
 import org.crochet.blog.model.Post;
 import org.crochet.blog.model.Category;
@@ -64,7 +63,11 @@ public class PostServiceImpl implements PostService {
         } else {
             // Update existing post
             post = getById(request.getId());
-            post = PostMapper.INSTANCE.partialUpdate(request, post);
+            var images = ImageUtils.sortFiles(request.getFiles());
+            post.setTitle(request.getTitle());
+            post.setContent(request.getContent());
+            post.setShowOnHomePage(request.isShowOnHomePage());
+            post.setFiles(FileMapper.INSTANCE.toEntities(images));
         }
 
         postRepository.save(post);
@@ -82,15 +85,19 @@ public class PostServiceImpl implements PostService {
         // Enrich with user info
         enrichPostsWithUserInfo(responses);
 
-        return PaginationMapper.toPagination(page, responses);
+        return PaginationResponse.<PostResponse>builder()
+                .contents(responses)
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .pageNo(page.getNumber())
+                .pageSize(page.getSize())
+                .last(page.isLast())
+                .build();
     }
 
     @Override
     public PostResponse getDetail(String id) {
-        Post post = postRepository.getDetail(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Blog post not found with id: " + id,
-                        404));
+        Post post = getById(id);
 
         PostResponse response = PostMapper.INSTANCE.toResponse(post);
 
@@ -133,7 +140,7 @@ public class PostServiceImpl implements PostService {
     public Post getById(String id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Blog post not found with id: " + id,
+                        "Post not found with id: " + id,
                         404));
     }
 

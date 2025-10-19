@@ -4,9 +4,12 @@ import org.crochet.blog.model.Comment;
 import org.crochet.blog.payload.response.CommentResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);    
     
