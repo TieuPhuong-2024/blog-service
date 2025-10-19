@@ -2,7 +2,7 @@ spring:
   application:
     name: blog-service
   profiles:
-    active: ${ACTIVE:local}
+    active: ${PROFILE:local}
 
 server:
   port: 8083
