@@ -60,7 +60,7 @@ public class PostServiceImpl implements PostService {
                     .category(category)
                     .title(request.getTitle())
                     .content(request.getContent())
-                    .showOnHomePage(request.isShowOnHomePage())
+                    .showOnHome(request.isShowOnHome())
                     .files(FileMapper.INSTANCE.toEntities(images))
                     .createdBy(currentUserId)
                     .build();
@@ -70,7 +70,7 @@ public class PostServiceImpl implements PostService {
             var images = ImageUtil.sortFiles(request.getFiles());
             post.setTitle(request.getTitle());
             post.setContent(request.getContent());
-            post.setShowOnHomePage(request.isShowOnHomePage());
+            post.setShowOnHome(request.isShowOnHome());
             post.setFiles(FileMapper.INSTANCE.toEntities(images));
         }
 

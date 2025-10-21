@@ -16,8 +16,6 @@ public class UserResponse {
     private String email;
     private RoleType role;
     private Boolean emailVerified;
-    private String createdDate;
-    private String lastModifiedDate;
 
     enum RoleType {
         USER,

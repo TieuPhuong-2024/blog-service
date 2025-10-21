@@ -11,7 +11,7 @@ public class FileResponse {
     private String fileName;
     private String fileContent;
     private Integer order;
-    private Instant lastModified = Instant.now();
+    private Instant lastModifiedAt = Instant.now();
 
     public FileResponse(String fileName, String fileContent) {
         this(fileName, fileContent, 0);
@@ -21,14 +21,14 @@ public class FileResponse {
         this(fileName, fileContent, order, Instant.now());
     }
 
-    public FileResponse(String fileName, String fileContent, Instant lastModified) {
-        this(fileName, fileContent, 0, lastModified);
+    public FileResponse(String fileName, String fileContent, Instant lastModifiedAt) {
+        this(fileName, fileContent, 0, lastModifiedAt);
     }
 
-    public FileResponse(String fileName, String fileContent, Integer order, Instant lastModified) {
+    public FileResponse(String fileName, String fileContent, Integer order, Instant lastModifiedAt) {
         this.fileName = fileName;
         this.fileContent = fileContent;
         this.order = order;
-        this.lastModified = lastModified;
+        this.lastModifiedAt = lastModifiedAt;
     }
 }

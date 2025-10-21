@@ -11,5 +11,5 @@ public class File {
     private String fileName;
     private String fileContent;
     private Integer order;
-    private Instant lastModified;
+    private Instant lastModifiedAt;
 }

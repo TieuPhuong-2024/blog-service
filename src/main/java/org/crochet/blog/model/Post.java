@@ -38,8 +38,8 @@ public class Post extends BaseEntity {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "show_on_home_page", columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean showOnHomePage;
+    @Column(name = "show_on_home", columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean showOnHome;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -54,7 +54,7 @@ public class Post extends BaseEntity {
             @AttributeOverride(name = "fileName", column = @Column(name = "file_name")),
             @AttributeOverride(name = "fileContent", column = @Column(name = "file_content")),
             @AttributeOverride(name = "order", column = @Column(name = "display_order")),
-            @AttributeOverride(name = "lastModified", column = @Column(name = "last_modified", columnDefinition = "datetime default current_timestamp"))
+            @AttributeOverride(name = "lastModifiedAt", column = @Column(name = "last_modified_at", columnDefinition = "datetime default current_timestamp"))
     })
     private Set<File> files;
 

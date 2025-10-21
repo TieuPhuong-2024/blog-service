@@ -35,11 +35,11 @@ public abstract class AuditTable {
     private Instant createdAt;
 
     @LastModifiedBy
-    @Column(name = "updated_by", length = 50)
-    private String updatedBy;
+    @Column(name = "last_modified_by", length = 50)
+    private String lastModifiedBy;
 
     @LastModifiedDate
     @CreationTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
+    @Column(name = "last_modified_at", nullable = false)
+    private Instant lastModifiedAt;
 }
