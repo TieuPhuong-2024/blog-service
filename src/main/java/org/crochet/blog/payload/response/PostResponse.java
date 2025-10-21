@@ -18,7 +18,7 @@ public class PostResponse {
     private String id;
     private String title;
     private String content;
-    private Boolean showOnHomePage;
+    private boolean showOnHome;
     private List<FileResponse> files;
     private Instant createdAt;
     private String fileContent;

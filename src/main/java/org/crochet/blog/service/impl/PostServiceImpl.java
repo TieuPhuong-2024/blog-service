@@ -118,7 +118,7 @@ public class PostServiceImpl implements PostService {
         // For now, return home posts. In the future, this could use settings like the
         // main service
         Pageable pageable = PageRequest.of(0, 12, Sort.by(Sort.Direction.DESC, "createdAt"));
-        List<Post> posts = postRepository.findByShowOnHomePageTrueOrderByCreatedAtDesc(pageable);
+        List<Post> posts = postRepository.findByShowOnHomeTrueOrderByCreatedAtDesc(pageable);
 
         List<PostResponse> responses = PostMapper.INSTANCE.toResponses(posts);
 

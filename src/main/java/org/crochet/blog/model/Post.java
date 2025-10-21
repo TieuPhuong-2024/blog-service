@@ -39,7 +39,7 @@ public class Post extends BaseEntity {
     private String content;
 
     @Column(name = "show_on_home", columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean showOnHome;
+    private boolean showOnHome;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonManagedReference

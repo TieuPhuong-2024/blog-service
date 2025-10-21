@@ -23,6 +23,6 @@ databaseChangeLog:
                   name: display_order
                   type: int
               - column:
-                  name: last_modified
+                  name: last_modified_at
                   type: timestamptz
                   defaultValueComputed: CURRENT_TIMESTAMP

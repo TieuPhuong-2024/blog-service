@@ -21,7 +21,7 @@ databaseChangeLog:
                   name: content
                   type: text
               - column:
-                  name: show_on_home_page
+                  name: show_on_home
                   type: boolean
                   defaultValue: true
               - column:
@@ -40,10 +40,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: updated_by
+                  name: last_modified_by
                   type: varchar(50)
               - column:
-                  name: updated_at
+                  name: last_modified_at
                   type: timestamp
                   defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:

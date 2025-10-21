@@ -37,7 +37,7 @@ public interface PostRepository extends JpaRepository<Post, String>, JpaSpecific
     List<String> getPostIds(Pageable pageable);
 
     // Find posts marked as home
-    List<Post> findByShowOnHomePageTrueOrderByCreatedAtDesc(Pageable pageable);
+    List<Post> findByShowOnHomeTrueOrderByCreatedAtDesc(Pageable pageable);
 
     // Find all posts with pagination
     Page<Post> findAllByOrderByCreatedAtDesc(Pageable pageable);
