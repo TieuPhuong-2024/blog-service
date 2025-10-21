@@ -21,6 +21,7 @@ public class PostResponse {
     private boolean showOnHome;
     private List<FileResponse> files;
     private Instant createdAt;
+    private Instant lastModifiedAt;
     private String fileContent;
     private String createdBy;
     private String userId;

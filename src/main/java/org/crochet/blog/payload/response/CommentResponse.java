@@ -16,6 +16,7 @@ public class CommentResponse {
     private String id;
     private String content;
     private Instant createdAt;
+    private Instant lastModifiedAt;
     private String userId;
     private String username;
     private String userAvatar;

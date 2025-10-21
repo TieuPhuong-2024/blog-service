@@ -17,5 +17,5 @@ public class CategoryResponse {
     private String id;
     private String name;
     private Instant createdAt;
-    private Instant updatedAt;
+    private Instant lastModifiedAt;
 }
