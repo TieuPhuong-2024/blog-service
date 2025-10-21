@@ -25,7 +25,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -78,6 +77,7 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PaginationResponse<PostResponse> getPosts(int offset, int limit, String sortBy, String sortDir,
             Specification<Post> spec) {
@@ -112,7 +112,7 @@ public class PostServiceImpl implements PostService {
         return response;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponse> getLimitedPosts() {
         // For now, return home posts. In the future, this could use settings like the
@@ -208,6 +208,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<PostResponse> getSimilarPosts(String postId, int limit) {
         // Get the target post

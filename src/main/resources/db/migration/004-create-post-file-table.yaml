@@ -24,5 +24,5 @@ databaseChangeLog:
                   type: int
               - column:
                   name: last_modified
-                  type: datetime
+                  type: timestamptz
                   defaultValueComputed: CURRENT_TIMESTAMP

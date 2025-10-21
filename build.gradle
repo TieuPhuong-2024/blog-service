@@ -3,16 +3,10 @@ plugins {
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.liquibase.gradle' version '2.2.1'
-    id 'com.google.cloud.tools.jib' version '3.4.4'
 }
 
 group = 'org'
 description = 'blog-service'
-
-// Gradle performance optimizations for Docker builds
-tasks.withType(JavaCompile) {
-    options.incremental = true
-}
 
 java {
     sourceCompatibility = '21'
@@ -91,20 +85,6 @@ dependencyManagement {
 
 jar {
     enabled = false
-}
-
-jib {
-    from {
-        image = 'eclipse-temurin:25-jre'
-    }
-    to {
-        image = 'blog-service:latest'
-    }
-    container {
-        jvmFlags = ['-Xmx512m', '-Xms256m']
-        mainClass = 'org.crochet.blog.BlogServiceApplication'
-        ports = ['8083']
-    }
 }
 
 test {

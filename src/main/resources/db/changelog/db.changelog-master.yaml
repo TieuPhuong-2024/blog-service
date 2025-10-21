@@ -1,9 +1,9 @@
 databaseChangeLog:
   - include:
-      file: src/main/resources/db/migration/001-create-category-table.yaml
+      file: classpath:db/migration/001-create-category-table.yaml
   - include:
-      file: src/main/resources/db/migration/002-create-post-table.yaml
+      file: classpath:db/migration/002-create-post-table.yaml
   - include:
-      file: src/main/resources/db/migration/003-create-comment-table.yaml
+      file: classpath:db/migration/003-create-comment-table.yaml
   - include:
-      file: src/main/resources/db/migration/004-create-post-file-table.yaml
+      file: classpath:db/migration/004-create-post-file-table.yaml

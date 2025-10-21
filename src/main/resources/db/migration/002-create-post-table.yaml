@@ -21,9 +21,9 @@ databaseChangeLog:
                   name: content
                   type: text
               - column:
-                  name: home
+                  name: show_on_home_page
                   type: boolean
-                  defaultValue: false
+                  defaultValue: true
               - column:
                   name: category_id
                   type: varchar(50)
@@ -35,7 +35,8 @@ databaseChangeLog:
                   type: varchar(50)
               - column:
                   name: created_at
-                  type: datetime
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
               - column:
@@ -43,6 +44,7 @@ databaseChangeLog:
                   type: varchar(50)
               - column:
                   name: updated_at
-                  type: datetime
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false

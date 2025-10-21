@@ -170,3 +170,4 @@ bin/**
 bin/default/**
 bin/generated-sources/**
 bin/main/**
+.kilocode/mcp.json
