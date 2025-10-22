@@ -1,6 +1,7 @@
 package org.crochet.blog.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,8 @@ public class PostResponse {
     private String id;
     private String title;
     private String content;
-    private boolean showOnHome;
+    @JsonProperty("is_home")
+    private boolean isHome;
     private List<FileResponse> files;
     private Instant createdAt;
     private Instant lastModifiedAt;
@@ -28,33 +30,4 @@ public class PostResponse {
     private String username;
     private String userAvatar;
     private Long commentCount;
-
-    public PostResponse(String id,
-                        String title,
-                        String content,
-                        String fileContent,
-                        Instant createdAt,
-                        String createdBy) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.fileContent = fileContent;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-    }
-
-    public PostResponse(String id,
-                        String title,
-                        String content,
-                        String fileContent,
-                        Instant createdAt,
-                        String createdBy,
-                        String userId,
-                        String username,
-                        String userAvatar) {
-        this(id, title, content, fileContent, createdAt, createdBy);
-        this.userId = userId;
-        this.username = username;
-        this.userAvatar = userAvatar;
-    }
 }

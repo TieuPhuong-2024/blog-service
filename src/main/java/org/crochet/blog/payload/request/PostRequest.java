@@ -15,6 +15,6 @@ public class PostRequest {
     private String categoryId;
     private String title;
     private String content;
-    private boolean showOnHome;
+    private boolean isHome;
     private List<FileResponse> files;
 }

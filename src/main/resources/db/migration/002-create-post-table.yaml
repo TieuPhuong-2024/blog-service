@@ -21,7 +21,7 @@ databaseChangeLog:
                   name: content
                   type: text
               - column:
-                  name: show_on_home
+                  name: is_home
                   type: boolean
                   defaultValue: true
               - column:

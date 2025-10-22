@@ -60,7 +60,7 @@ public class PostServiceImpl implements PostService {
                     .category(category)
                     .title(request.getTitle())
                     .content(request.getContent())
-                    .showOnHome(request.isShowOnHome())
+                    .isHome(request.isHome())
                     .files(FileMapper.INSTANCE.toEntities(images))
                     .createdBy(currentUserId)
                     .build();
@@ -70,7 +70,7 @@ public class PostServiceImpl implements PostService {
             var images = ImageUtil.sortFiles(request.getFiles());
             post.setTitle(request.getTitle());
             post.setContent(request.getContent());
-            post.setShowOnHome(request.isShowOnHome());
+            post.setHome(request.isHome());
             post.setFiles(FileMapper.INSTANCE.toEntities(images));
         }
 
@@ -118,7 +118,7 @@ public class PostServiceImpl implements PostService {
         // For now, return home posts. In the future, this could use settings like the
         // main service
         Pageable pageable = PageRequest.of(0, 12, Sort.by(Sort.Direction.DESC, "createdAt"));
-        List<Post> posts = postRepository.findByShowOnHomeTrueOrderByCreatedAtDesc(pageable);
+        List<Post> posts = postRepository.findByIsHomeTrueOrderByCreatedAtDesc(pageable);
 
         List<PostResponse> responses = PostMapper.INSTANCE.toResponses(posts);
 
