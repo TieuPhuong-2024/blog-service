@@ -96,13 +96,13 @@ public class CommentServiceImpl implements CommentService {
         addReplyCounts(responses);
 
         return PaginationResponse.<CommentResponse>builder()
-            .contents(responses)
-            .pageNo(page.getNumber())
-            .pageSize(page.getSize())
-            .totalElements(page.getTotalElements())
-            .totalPages(page.getTotalPages())
-            .last(page.isLast())
-            .build();
+                .contents(responses)
+                .pageNo(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .last(page.isLast())
+                .build();
     }
 
     @Override
@@ -118,13 +118,13 @@ public class CommentServiceImpl implements CommentService {
         enrichCommentsWithUserInfo(responses);
 
         return PaginationResponse.<CommentResponse>builder()
-            .contents(responses)
-            .pageNo(page.getNumber())
-            .pageSize(page.getSize())
-            .totalElements(page.getTotalElements())
-            .totalPages(page.getTotalPages())
-            .last(page.isLast())
-            .build();
+                .contents(responses)
+                .pageNo(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .last(page.isLast())
+                .build();
     }
 
     @Override
@@ -156,15 +156,8 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(String commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found"));
-
-        String currentUserId = SecurityUtil.getCurrentUserId();
-        if (!currentUserId.equals(comment.getUserId())) {
-            throw new RuntimeException("User does not have permission to delete this comment");
-        }
-
         commentRepository.delete(comment);
     }
-
 
     /**
      * Enrich a single comment with user info
@@ -185,7 +178,8 @@ public class CommentServiceImpl implements CommentService {
                 UserResponse mentionedUser = mainServiceClient.getUserInfo(response.getMentionedUserId());
                 response.setMentionedUsername(mentionedUser.getName());
             } catch (Exception e) {
-                log.warn("Failed to get mentioned user info for user {}: {}", response.getMentionedUserId(), e.getMessage());
+                log.warn("Failed to get mentioned user info for user {}: {}", response.getMentionedUserId(),
+                        e.getMessage());
             }
         }
     }
@@ -202,8 +196,10 @@ public class CommentServiceImpl implements CommentService {
         List<String> userIds = responses.stream()
                 .flatMap(response -> {
                     List<String> ids = new java.util.ArrayList<>();
-                    if (response.getUserId() != null) ids.add(response.getUserId());
-                    if (response.getMentionedUserId() != null) ids.add(response.getMentionedUserId());
+                    if (response.getUserId() != null)
+                        ids.add(response.getUserId());
+                    if (response.getMentionedUserId() != null)
+                        ids.add(response.getMentionedUserId());
                     return ids.stream();
                 })
                 .distinct()
@@ -258,11 +254,10 @@ public class CommentServiceImpl implements CommentService {
                 Map<String, Long> replyCountMap = replyCounts.stream()
                         .collect(Collectors.toMap(
                                 result -> (String) result[0], // parentId
-                                result -> (Long) result[1]    // count
+                                result -> (Long) result[1] // count
                         ));
 
-                responses.forEach(response ->
-                    response.setReplyCount(replyCountMap.getOrDefault(response.getId(), 0L)));
+                responses.forEach(response -> response.setReplyCount(replyCountMap.getOrDefault(response.getId(), 0L)));
             } catch (Exception e) {
                 log.warn("Failed to get reply counts: {}", e.getMessage());
             }

@@ -45,7 +45,8 @@ public class SecurityConfig {
 
     private void configureBasicSecurity(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -56,11 +57,13 @@ public class SecurityConfig {
         http.headers(headers -> headers
                 .frameOptions(HeadersConfigurer.FrameOptionsConfig::deny)
                 .xssProtection(HeadersConfigurer.XXssConfig::disable)
-                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'; frame-ancestors 'none';"))
+                .contentSecurityPolicy(csp -> csp
+                        .policyDirectives("default-src 'self'; frame-ancestors 'none';"))
                 .referrerPolicy(referrer -> referrer
                         .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
                 .permissionsPolicyHeader(
-                        permissions -> permissions.policy("camera=(), microphone=(), geolocation=(), payment=()")));
+                        permissions -> permissions.policy(
+                                "camera=(), microphone=(), geolocation=(), payment=()")));
     }
 
     private void configureExceptionHandling(HttpSecurity http) throws Exception {
@@ -78,19 +81,24 @@ public class SecurityConfig {
                         "/api/v1/posts/limited",
                         "/api/v1/posts/{id}/similar",
                         "/api/v1/comments",
+                        "/api/v1/comments/{post_id}/root",
+                        "/api/v1/comments/{post_id}/count",
+                        "/api/v1/comments/{post_id}",
+                        "/api/v1/comments/replies/{comment_id}",
                         "/api/v1/categories",
-                        "/api/v1/categories/{id}").permitAll()
+                        "/api/v1/categories/{id}")
+                .permitAll()
                 // Protected endpoints
                 .requestMatchers(
                         "/api/v1/posts/**",
                         "/api/v1/comments/**",
-                        "/api/v1/categories/**").authenticated()
+                        "/api/v1/categories/**")
+                .authenticated()
                 // Swagger/OpenAPI
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 // Actuator
                 .requestMatchers("/actuator/**").permitAll()
-                .anyRequest().authenticated()
-        );
+                .anyRequest().authenticated());
     }
 
     @Bean

@@ -12,6 +12,7 @@ import org.crochet.blog.payload.request.CommentRequest;
 import org.crochet.blog.payload.response.CommentResponse;
 import org.crochet.blog.payload.response.PaginationResponse;
 import org.crochet.blog.payload.response.ResponseData;
+import org.crochet.blog.security.CommentOwnerOrAdmin;
 import org.crochet.blog.service.CommentService;
 import org.crochet.blog.util.ResponseUtil;
 import org.springframework.http.HttpStatus;
@@ -28,16 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/post-comments")
+@RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
     @Operation(summary = "Create or update a comment")
-    @ApiResponse(responseCode = "201", description = "Comment created successfully",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = CommentResponse.class)))
+    @ApiResponse(responseCode = "201", description = "Comment created successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommentResponse.class)))
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @SecurityRequirement(name = "BearerAuth")
@@ -47,34 +46,26 @@ public class CommentController {
         return ResponseUtil.success(response, "Comment created or updated successfully");
     }
 
-    @Operation(summary = "Get root comments for a blog post")
-    @ApiResponse(responseCode = "200", description = "Root comments retrieved successfully",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = PaginationResponse.class)))
+    @Operation(summary = "Get root comments for a post")
+    @ApiResponse(responseCode = "200", description = "Root comments retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PaginationResponse.class)))
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/post/{post_id}/root")
-    public ResponseData<PaginationResponse<CommentResponse>> getRootCommentsByBlogPost(
-            @Parameter(description = "Blog post ID") @PathVariable("post_id") String postId,
-            @Parameter(description = "Page number (default: 0)")
-            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-            @Parameter(description = "Page size (default: 10)")
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    @GetMapping("/{post_id}/root")
+    public ResponseData<PaginationResponse<CommentResponse>> getRootCommentsByPost(
+            @Parameter(description = "Post ID") @PathVariable("post_id") String postId,
+            @Parameter(description = "Page number (default: 0)") @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+            @Parameter(description = "Page size (default: 10)") @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         var response = commentService.getRootCommentsByPost(postId, pageNo, pageSize);
         return ResponseUtil.success(response);
     }
 
-    @Operation(summary = "Get all comments for a blog post")
-    @ApiResponse(responseCode = "200", description = "Comments retrieved successfully",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = PaginationResponse.class)))
+    @Operation(summary = "Get all comments for a post")
+    @ApiResponse(responseCode = "200", description = "Comments retrieved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PaginationResponse.class)))
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/post/{post_id}")
+    @GetMapping("/{post_id}")
     public ResponseData<PaginationResponse<CommentResponse>> getCommentsByPost(
-            @Parameter(description = "Blog post ID") @PathVariable("post_id") String postId,
-            @Parameter(description = "Page number (default: 0)")
-            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-            @Parameter(description = "Page size (default: 10)")
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+            @Parameter(description = "Post ID") @PathVariable("post_id") String postId,
+            @Parameter(description = "Page number (default: 0)") @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+            @Parameter(description = "Page size (default: 10)") @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         var response = commentService.getCommentsByPost(postId, pageNo, pageSize);
         return ResponseUtil.success(response);
     }
@@ -82,7 +73,7 @@ public class CommentController {
     @Operation(summary = "Get replies for a specific comment")
     @ApiResponse(responseCode = "200", description = "Comment replies retrieved successfully")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{comment_id}/replies")
+    @GetMapping("/replies/{comment_id}")
     public ResponseData<List<CommentResponse>> getRepliesByCommentId(
             @Parameter(description = "Comment ID") @PathVariable("comment_id") String commentId) {
         var response = commentService.getRepliesByCommentId(commentId);
@@ -94,9 +85,20 @@ public class CommentController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{comment_id}")
     @SecurityRequirement(name = "BearerAuth")
+    @CommentOwnerOrAdmin
     public ResponseData<String> deleteComment(
             @Parameter(description = "Comment ID") @PathVariable("comment_id") String commentId) {
         commentService.deleteComment(commentId);
         return ResponseUtil.success("Comment deleted successfully");
+    }
+
+    @Operation(summary = "Get comments count for a post")
+    @ApiResponse(responseCode = "200", description = "Comments count retrieved successfully")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{post_id}/count")
+    public ResponseData<Long> getCommentsCountByPostId(
+            @Parameter(description = "Post ID") @PathVariable("post_id") String postId) {
+        var response = commentService.countCommentsByPost(postId);
+        return ResponseUtil.success(response);
     }
 }
