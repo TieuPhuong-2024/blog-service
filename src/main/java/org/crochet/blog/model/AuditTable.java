@@ -31,7 +31,7 @@ public abstract class AuditTable {
 
     @CreatedDate
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at")
     private Instant createdAt;
 
     @LastModifiedBy
@@ -40,6 +40,6 @@ public abstract class AuditTable {
 
     @LastModifiedDate
     @CreationTimestamp
-    @Column(name = "last_modified_at", nullable = false)
+    @Column(name = "last_modified_at")
     private Instant lastModifiedAt;
 }
