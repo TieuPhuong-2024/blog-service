@@ -24,8 +24,6 @@ spring:
     type: caffeine
     caffeine:
       spec: maximumSize=5000,expireAfterWrite=10m
-  liquibase:
-    enabled: false
 
 logging:
   pattern:
@@ -35,7 +33,6 @@ logging:
     org.springframework.security: WARN
     org.crochet.blog: INFO
     org.hibernate.SQL: WARN
-    liquibase: INFO
     root: INFO
 
 management:
