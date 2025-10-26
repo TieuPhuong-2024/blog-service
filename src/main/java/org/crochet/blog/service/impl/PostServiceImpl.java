@@ -80,12 +80,19 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     @Override
     public PaginationResponse<PostResponse> getPosts(int offset, int limit, String sortBy, String sortDir,
+            String categoryId,
             Specification<Post> spec) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortBy);
         Pageable pageable = PageRequest.of(offset, limit, sort);
 
         Page<Post> page = postRepository.findAll(spec, pageable);
-        List<PostResponse> responses = PostMapper.INSTANCE.toResponses(page.getContent());
+        var content = page.getContent();
+        if (ObjectUtil.hasText(categoryId)) {
+            content = content.stream()
+                    .filter(p -> p.getCategory() != null && p.getCategory().getId().equals(categoryId))
+                    .collect(Collectors.toList());
+        }
+        List<PostResponse> responses = PostMapper.INSTANCE.toResponses(content);
 
         // Enrich with user info
         enrichPostsWithUserInfo(responses);

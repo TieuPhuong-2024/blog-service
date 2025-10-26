@@ -12,6 +12,7 @@ public interface PostService {
     void createOrUpdatePost(PostRequest request);
 
     PaginationResponse<PostResponse> getPosts(int offset, int limit, String sortBy, String sortDir,
+                                      String categoryId,
                                       Specification<Post> spec);
 
     PostResponse getDetail(String id);

@@ -64,8 +64,11 @@ public class PostController {
             @RequestParam(value = "sortBy", defaultValue = "createdAt", required = false) String sortBy,
             @Parameter(description = "Sort direction (default: DESC)")
             @RequestParam(value = "sortDir", defaultValue = "DESC", required = false) String sortDir,
+            @Parameter(description = "Category ID")
+            @RequestParam(value = "categoryId", required = false) String categoryId,
+            @Parameter(description = "Filter specification")
             @Filter Specification<Post> spec) {
-        var response = postService.getPosts(pageNo, pageSize, sortBy, sortDir, spec);
+        var response = postService.getPosts(pageNo, pageSize, sortBy, sortDir, categoryId, spec);
         return ResponseUtil.success(response);
     }
 
