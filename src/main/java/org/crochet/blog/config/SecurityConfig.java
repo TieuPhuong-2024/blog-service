@@ -86,7 +86,10 @@ public class SecurityConfig {
                         "/api/v1/comments/{post_id}",
                         "/api/v1/comments/replies/{comment_id}",
                         "/api/v1/categories",
-                        "/api/v1/categories/{id}")
+                        "/api/v1/categories/{id}",
+                        "/",
+                        "/health",
+                        "/favicon.ico")
                 .permitAll()
                 // Protected endpoints
                 .requestMatchers(
