@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-post-file-table
+      author: system
+      changes:
+        - createTable:
+            tableName: post_file
+            columns:
+              - column:
+                  name: post_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_post_file_post
+                    references: post(id)
+              - column:
+                  name: file_name
+                  type: varchar(255)
+              - column:
+                  name: file_content
+                  type: text
+              - column:
+                  name: display_order
+                  type: int
+              - column:
+                  name: last_modified_at
+                  type: timestamptz
+                  defaultValueComputed: CURRENT_TIMESTAMP

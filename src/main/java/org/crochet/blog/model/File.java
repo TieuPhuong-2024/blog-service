@@ -1,0 +1,15 @@
+package org.crochet.blog.model;
+
+import jakarta.persistence.Embeddable;
+import lombok.Data;
+
+import java.time.Instant;
+
+@Data
+@Embeddable
+public class File {
+    private String fileName;
+    private String fileContent;
+    private Integer order;
+    private Instant lastModifiedAt;
+}

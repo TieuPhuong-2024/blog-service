@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-comment-table
+      author: system
+      changes:
+        - createTable:
+            tableName: comment
+            columns:
+              - column:
+                  name: id
+                  type: varchar(50)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: post_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_comment_post
+                    references: post(id)
+              - column:
+                  name: user_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: text
+              - column:
+                  name: parent_id
+                  type: varchar(50)
+                  constraints:
+                    foreignKeyName: fk_comment_parent
+                    references: comment(id)
+              - column:
+                  name: mentioned_user_id
+                  type: varchar(255)
+              - column:
+                  name: created_by
+                  type: varchar(50)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(50)
+              - column:
+                  name: last_modified_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false

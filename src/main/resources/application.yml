@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: blog-service
+  profiles:
+    active: ${PROFILE:local}
+
+server:
+  port: ${PORT:8083}
