@@ -81,6 +81,7 @@ public class CommentServiceImpl implements CommentService {
         return response;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PaginationResponse<CommentResponse> getRootCommentsByPost(String postId, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
@@ -105,6 +106,7 @@ public class CommentServiceImpl implements CommentService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PaginationResponse<CommentResponse> getCommentsByPost(String postId, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
@@ -137,6 +139,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.countByPostId(postId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CommentResponse> getRepliesByCommentId(String commentId) {
         List<Comment> replies = commentRepository.findByParentIdOrderByCreatedAtAsc(commentId);
@@ -188,7 +191,7 @@ public class CommentServiceImpl implements CommentService {
      * Enrich multiple comments with user info efficiently
      */
     private void enrichCommentsWithUserInfo(List<CommentResponse> responses) {
-        if (responses.isEmpty()) {
+        if (ObjectUtil.isEmpty(responses)) {
             return;
         }
 
@@ -205,13 +208,16 @@ public class CommentServiceImpl implements CommentService {
                 .distinct()
                 .toList();
 
-        if (userIds.isEmpty()) {
+        if (ObjectUtil.isEmpty(userIds)) {
             return;
         }
 
         try {
             // Batch get user info
             List<UserResponse> userResponses = mainServiceClient.getBatchUserInfo(userIds);
+            if (ObjectUtil.isEmpty(userResponses)) {
+                return;
+            }
 
             // Create a user map
             Map<String, UserResponse> userMap = userResponses.stream()
@@ -243,11 +249,15 @@ public class CommentServiceImpl implements CommentService {
      * Add reply counts to root comments
      */
     private void addReplyCounts(List<CommentResponse> responses) {
+        if (ObjectUtil.isEmpty(responses)) {
+            return;
+        }
+
         List<String> commentIds = responses.stream()
                 .map(CommentResponse::getId)
                 .toList();
 
-        if (!commentIds.isEmpty()) {
+        if (ObjectUtil.isNotEmpty(commentIds)) {
             try {
                 List<Object[]> replyCounts = commentRepository.countRepliesByParentIds(commentIds);
 

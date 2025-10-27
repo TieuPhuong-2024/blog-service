@@ -41,12 +41,14 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CategoryResponse getDetail(String id) {
         Category category = getById(id);
         return CategoryMapper.INSTANCE.toResponse(category);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CategoryResponse> getAll() {
         List<Category> categories = categoryRepository.findAll();

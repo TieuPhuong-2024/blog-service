@@ -107,6 +107,7 @@ public class PostServiceImpl implements PostService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PostResponse getDetail(String id) {
         Post post = getById(id);
@@ -176,7 +177,7 @@ public class PostServiceImpl implements PostService {
      * Enrich multiple posts with user info efficiently
      */
     private void enrichPostsWithUserInfo(List<PostResponse> responses) {
-        if (responses.isEmpty()) {
+        if (ObjectUtil.isEmpty(responses)) {
             return;
         }
 
@@ -187,13 +188,16 @@ public class PostServiceImpl implements PostService {
                 .distinct()
                 .toList();
 
-        if (userIds.isEmpty()) {
+        if (ObjectUtil.isEmpty(userIds)) {
             return;
         }
 
         try {
             // Batch get user info
             List<UserResponse> userResponses = mainServiceClient.getBatchUserInfo(userIds);
+            if (ObjectUtil.isEmpty(userResponses)) {
+                return;
+            }
 
             // Create a user map
             Map<String, UserResponse> userMap = userResponses.stream()
@@ -227,7 +231,7 @@ public class PostServiceImpl implements PostService {
                 .filter(post -> !post.getId().equals(postId))
                 .toList();
 
-        if (candidatePosts.isEmpty()) {
+        if (ObjectUtil.isEmpty(candidatePosts)) {
             return new ArrayList<>();
         }
 
